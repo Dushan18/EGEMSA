@@ -1,0 +1,13 @@
+<div class="border-bottom py-3 px-3 d-flex justify-content-between align-items-center">
+    <ng-content select="[title]"></ng-content>
+    <button mat-mini-fab mat-dialog-close tabindex="-1"
+        style="background-color: white; color: rgba(29, 24, 24, 0.418);"
+        [disabled]="disabledClose">x</button>
+</div>
+<div class="py-3 ml-3" style="width: clamp(2rem, 40vw, 650px); height: auto; max-height: 50vh; overflow: auto;">
+    <ng-content select="[body]"></ng-content>
+</div>
+<div class="border-top text-right py-3 pr-3">
+    <button class="mr-3" mat-flat-button mat-dialog-close tabindex="-1" [disabled]="disabledClose">Cerrar</button>
+    <ng-content select="[action-button]"></ng-content>
+</div>

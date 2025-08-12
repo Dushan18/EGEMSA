@@ -1,0 +1,31 @@
+<div class="border-bottom py-3 px-3 d-flex justify-content-between align-items-center">
+    <h2><b>SOLICITUD REGISTRADA CON ÉXITO</b></h2>
+    <button mat-mini-fab mat-dialog-close tabindex="-1"
+        style="background-color: rgb(79, 89, 220); color: rgb(255, 255, 255);"
+        [disabled]="disabledClose">X</button>
+</div>
+<div class="row justify-content-md-center">
+    <div class="col col-lg-2">
+        <i class="pi pi-check" style="font-size: 7rem;color:#12cb12"></i>
+    </div>
+    <div class="col-md-auto">
+        <p style="font-size: 18px;">
+            Se ha registrado la solicitud <b>N°{{data.codSolicitud}}</b> y ha sido enviada a su <b>correo: {{data.correo}}</b>.
+            A continuación puede descargar su solicitud registrada en PDF.
+        </p>
+        <p style="font-size: 18px;">Puede consultar el estado de su solicitud con la siguiente clave: {{data.data.claveAleatoria}}</p>
+        <p-button icon="pi pi-download" label="Descargar PDF" iconPos="left" class="mr-3" pTooltip="Ver" tooltipPosition="left" (onClick)="descargarSolicitud()"></p-button>
+    </div>
+</div>
+<div class="row justify-content-md-center">
+    <div class="col col-lg-2">
+
+    </div>
+</div>
+<br>
+<!-- <div class="row justify-content-md-center">
+    <div class="col col-lg-2">
+        <button class="mr-3" mat-flat-button mat-dialog-close tabindex="-1" [disabled]="disabledClose">Cerrar</button>
+            <ng-content select="[action-button]"></ng-content>
+    </div>
+</div> -->

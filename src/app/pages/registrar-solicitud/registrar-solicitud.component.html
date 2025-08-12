@@ -1,0 +1,437 @@
+<div class="container mt-4">
+    <form [formGroup]="formGroup" (ngSubmit)="validateAndSubmit()">
+        <!-- SECCION 1 - Informacion del FRAI -->
+        <div class="mb-4">
+            <!-- <h1 class="text-center">Solicitud de Acceso a la Información Pública</h1> -->
+            <label for="idInfoFrai" class="form-label fw-bold">1. FUNCIONARIO RESPONSABLE DE ENTREGA DE
+                INFORMACIÓN:</label>
+            <input class="form-control" type="text" formControlName="nombreResponsable" [disabled]=true>
+        </div>
+        <!-- SECCION 2 - Tipo de persona -->
+        <div class="row mb-4">
+            <label class="form-label col-12 col-md-3 fw-bold">2. TIPO DE PERSONA:</label>
+            <div class="col-6 col-md-4">
+                <div class="form-check">
+                    <input type="radio" name="tipoPersona" class="form-check-input" formControlName="tipoPersona"
+                        value="1" (change)="changeTipoPersona('1')" checked>
+                    <label for="idPersonaNatural" class="form-check-label">Persona Natural</label>
+                </div>
+                <div *ngIf="formGroup.get('tipoPersona')?.errors && formGroup.get('tipoPersona')?.touched">
+                    <span style="color:#FF0000" *ngIf="formGroup.get('tipoPersona')?.hasError('required')">
+                        (*) Seleccione tipo de persona
+                    </span>
+                </div>
+            </div>
+            <div class="col-6 col-md-4">
+                <div class="form-check">
+                    <input type="radio" name="tipoPersona" class="form-check-input" formControlName="tipoPersona"
+                        value="2" (change)="changeTipoPersona('2')">
+                    <label for="idPersonaJuridica" class="form-check-label">Persona Jurídica</label>
+                </div>
+                <div *ngIf="formGroup.get('tipoPersona')?.errors && formGroup.get('tipoPersona')?.touched">
+                    <span style="color:#FF0000" *ngIf="formGroup.get('tipoPersona')?.hasError('required')">
+                        (*) Seleccione tipo de persona
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+        <!-- SECCION 3 -1 PERSONA NATURAL seccionDatosPersNatu -->
+
+        <!--Seccion persona natural-->
+        <div class="row gx-0 mb-2" *ngIf="seccionDatosPersNatu">
+            <div class="col-12">
+                <label class="form-label fw-bold mt-2 mb-4">3. DATOS DE PERSONA NATURAL:</label>
+
+            </div>
+            <div class="col-12">
+                <!-- Busqueda -->
+                <div class="row align-items-start">
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+                        <label for="tipoDocumentoSelect" class="form-label fw-bold">Nro. de Documento:</label>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-4 mb-4">
+                        <select name="tipoDocumento" id="tipoDocumentoId" class="form-select"
+                            formControlName="tipoDocumento" (change)="limpiarCampos()">
+                            <option value="null" disabled="true" [selected]="true" class="form-select">TIPO DOCUMENTO
+                            </option>
+                            <option value="DNI" class="form-select">DNI</option>
+                            <option value="CE" class="form-select">CE</option>
+                            <option value="OTRO" class="form-select">OTRO</option>
+                        </select>
+                        <div *ngIf="formGroup.get('tipoDocumento')?.errors && formGroup.get('tipoDocumento')?.touched">
+                            <span style="color:#FF0000" *ngIf="formGroup.get('tipoDocumento')?.hasError('required')">
+                                (*) Seleccione un tipo de docmuento
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-4 mb-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="idNroDocumento"
+                                [maxlength]="documentNumberLengthMax" formControlName="nroDocumento"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                            <button *ngIf="formGroup.get('tipoDocumento')?.value=='DNI'" type="button"
+                                class="btn btn-primary" (click)="buscarPersonaNatu()">Validar
+                                DNI</button>
+                        </div>
+                        <!-- {{formGroup.get('nroDocumento')?.value?.length|json}} -->
+                        <div *ngIf="formGroup.get('nroDocumento')?.touched && formGroup.get('tipoDocumento')?.value=='CE'">
+                            <span style="color:#FF0000" *ngIf="formGroup.get('tipoDocumento')?.value=='CE'">
+                                <!-- {{formGroup.get('nroDocumento')?.hasError('minlength')|json}} -->
+                                <span style="color:#FF0000" *ngIf="formGroup.get('nroDocumento')?.value?.length<9">
+                                    (*) Ingrese una cantidad mínima de 9 caracteres para el CE
+                                </span>
+                                <span style="color:#FF0000" *ngIf="formGroup.get('nroDocumento')?.value?.length>12">
+                                  (*) Ingrese una cantidad máxima 12 caracteres para el CE
+                                </span>
+                            </span>
+                        </div>
+
+                        <div *ngIf="formGroup.get('nroDocumento')?.touched && formGroup.get('tipoDocumento')?.value=='OTRO'">
+                          <span style="color:#FF0000" *ngIf="formGroup.get('tipoDocumento')?.value=='OTRO'">
+                              <!-- {{formGroup.get('nroDocumento')?.hasError('minlength')|json}} -->
+                              <span style="color:#FF0000" *ngIf="formGroup.get('nroDocumento')?.value?.length<8">
+                                  (*) Ingrese una cantidad mínima de 8 caracteres para el tipo de documento OTRO
+                              </span>
+                              <span style="color:#FF0000" *ngIf="formGroup.get('nroDocumento')?.value?.length>20">
+                                (*) Ingrese una cantidad máxima 20 caracteres para el tipo de documento OTRO
+                              </span>
+                          </span>
+                      </div>
+
+                        <div *ngIf="formGroup.get('nroDocumento')?.errors && formGroup.get('nroDocumento')?.touched">
+                            <span style="color:#FF0000" *ngIf="formGroup.get('nroDocumento')?.hasError('required')">
+                                (*) Digitar un número de documento
+                            </span>
+                            <!-- ---{{formGroup.get('nroDocumento')?.hasError('minlength')|json}}--- -->
+                            <span style="color:#FF0000" *ngIf="formGroup.get('tipoDocumento')?.value=='DNI'">
+                                <span style="color:#FF0000"
+                                    *ngIf="formGroup.get('nroDocumento')?.hasError('minlength') || formGroup.get('nroDocumento')?.value?.length>8">
+                                    (*) Solo 8 caracteres permitidos para DNI
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-4">
+                        <label for="apellidoPaterno" class="form-label fw-bold">Apellido Paterno:</label>
+                        <input type="text" class="form-control mb-3" formControlName="apellidoPaterno" onkeyup="javascript:this.value=this.value.toUpperCase();" onkeypress="return ' áéíóúabcdefghijklmnñopqrstuvwxyzÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ'.includes(event.key)">
+                        <div
+                            *ngIf="formGroup.get('apellidoPaterno')?.errors && formGroup.get('apellidoPaterno')?.touched">
+                            <span style="color:#FF0000" *ngIf="formGroup.get('apellidoPaterno')?.hasError('required')">
+                                (*) Digitar apellido paterno
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <label for="apellidoMaterno" class="form-label fw-bold">Apellido Materno:</label>
+                        <input type="text" name="apellidoMaterno" id="apellidoMaternoId" class="form-control mb-3"
+                            formControlName="apellidoMaterno" onkeyup="javascript:this.value=this.value.toUpperCase();" onkeypress="return ' áéíóúabcdefghijklmnñopqrstuvwxyzÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ'.includes(event.key)">
+                        <div
+                            *ngIf="formGroup.get('apellidoMaterno')?.errors && formGroup.get('apellidoMaterno')?.touched">
+                            <span style="color:#FF0000" *ngIf="formGroup.get('apellidoMaterno')?.hasError('required')">
+                                (*) Digitar apellido materno
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <label for="apellidoMaterno" class="form-label fw-bold">Nombres:</label>
+                        <input type="text" name="nombres" id="nombresId" class="form-control mb-3"
+                            formControlName="nombres" onkeyup="javascript:this.value=this.value.toUpperCase();" onkeypress="return ' áéíóúabcdefghijklmnñopqrstuvwxyzÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ'.includes(event.key)">
+                        <div *ngIf="formGroup.get('nombres')?.errors && formGroup.get('nombres')?.touched">
+                            <span style="color:#FF0000" *ngIf="formGroup.get('nombres')?.hasError('required')">
+                                (*) Digitar nombres
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="form-label col-12 col-md-3 fw-bold">Sexo:</label>
+                    <div class="col-2 col-md-2">
+                        <div class="form-check">
+                            <input type="radio" name="sexo" class="form-check-input" formControlName="sexo" value="M" checked>
+                            <label for="idMasculino" class="form-check-label">&nbsp;Masculino</label>
+                        </div>
+                       
+                    </div>
+                    <div class="col-2 col-md-2">
+                         <div class="form-check">
+                            <input type="radio" name="sexo" class="form-check-input" formControlName="sexo" value="F">
+                            <label for="idFemenino" class="form-check-label">&nbsp;Femenino</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- SECCION 3 -2 PERSONA JURIDICA  -->
+        <!--Seccion datos de persona juridica-->
+        <div class="row align-items-start gx-0 mb-2" *ngIf="seccionDatosPersNatu == false">
+            <div class="col-12">
+                <label class="form-label fw-bold mt-2 mb-4">3. DATOS DE PERSONA JURÍDICA:</label>
+            </div>
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-12 col-sm-2">
+                        <label for="idRuc" class="form-label fw-bold">R.U.C.</label>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-5 col-lg-4 mb-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="idRuc" formControlName="numeroRuc"
+                                [maxlength]=11 minlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                            <button type="button" class="btn btn-primary"
+                                (click)="buscarPersonaJuridica()">Validar</button>
+                        </div>
+                        <div *ngIf="formGroup.get('numeroRuc')?.errors && formGroup.get('numeroRuc')?.touched">
+                            <span style="color:#FF0000" *ngIf="formGroup.get('numeroRuc')?.hasError('required')">
+                                (*) Número de RUC necesario
+                            </span>
+                            <span style="color:#FF0000" *ngIf="formGroup.get('numeroRuc')?.hasError('minlength') || formGroup.get('numeroRuc')?.value?.length > 11">
+                            (*) Solo 11 caracteres permitidos para RUC
+                        </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 mt-3">
+                <div class="row">
+                    <div class="col-12 col-sm-2">
+                        <label for="idRazonSocial" class="form-label fw-bold">Razón Social:</label>
+                    </div>
+                    <div class="col-12 col-sm-10">
+                        <input type="text" class="form-control" id="idRazonSocial" [readonly]="true"
+                            formControlName="razonSocial">
+                        <div *ngIf="formGroup.get('razonSocial')?.errors && formGroup.get('razonSocial')?.touched">
+                            <span style="color:#FF0000" *ngIf="formGroup.get('razonSocial')?.hasError('required')">
+                                (*) Nombre de razón social necesario
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+        <!--SECCION 4 Datos contacto-->
+        <div class="row  mb-2">
+            <div class="col-12">
+                <label class="form-label fw-bold mt-2 mb-4">4. DATOS DE CONTACTO:</label>
+            </div>
+            <div class="col-12 col-md-6">
+                <label for="direccion" class="form-label fw-bold">Dirección:</label>
+                <input type="text" class="form-control mb-3" formControlName="direccion" onkeypress="return ' 0123456789áéíóúabcdefghijklmnñopqrstuvwxyzÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ.'.includes(event.key)">
+                <div *ngIf="formGroup.get('direccion')?.errors && formGroup.get('direccion')?.touched">
+                    <span style="color:#FF0000" *ngIf="formGroup.get('direccion')?.hasError('required')">
+                        (*) Digitar una dirección
+                    </span>
+                </div>
+
+            </div>
+            <div class="col-12 col-md-6">
+                <label for="correo" class="form-label fw-bold">Correo Electrónico:</label>
+                <div class="input-group">
+                  <input type="text" class="form-control" id="correoId" formControlName="correo"
+                      [maxlength]=250>
+                  <button type="button" class="btn btn-primary" title="Limpiar"
+                      (click)="limpiarCorreo()"><mat-icon>delete icon</mat-icon>
+                  </button>
+                    <!-- <button class="btn btn-primary"
+                    (click)="limpiarCorreo()"><mat-icon>home</mat-icon>validar
+                  </button>
+                    <button mat-fab extended>
+                      <mat-icon>home</mat-icon>
+                      Home
+                    </button> -->
+              </div>
+                <!-- <input type="text" name="correo" id="correoId" class="form-control" formControlName="correo"> -->
+                <div *ngIf="formGroup.get('correo')?.errors && formGroup.get('correo')?.touched">
+                    <span style="color:#FF0000" *ngIf="formGroup.get('correo')?.hasError('required')">
+                        (*) Digitar una dirección de correo electrónico
+                    </span>
+                    <span style="color:#FF0000" *ngIf="formGroup.get('correo')?.hasError('email')">
+                        (*) Email invalido. Ejem: persona@dominio.com
+                    </span>
+                </div>
+                <div *ngIf="!formGroup.get('correo')?.errors && !buttonDisabledEnviarCorreo && !loadingEnvioCorreo">
+                  <u style="color:#FF0000" (click)="enviarCorreoVerificacion()">Validar su correo electrónico</u>
+                </div>
+                <div *ngIf="!formGroup.get('correo')?.errors && loadingEnvioCorreo">
+                  <h2 style="color:#1abb3d">Espere un momento por favor!!!.</h2>
+                </div>
+                <div *ngIf="!formGroup.get('correo')?.errors && buttonDisabledEnviarCorreo && !CorreoValidado">
+                  <u style="color:#FF0000" (click)="validarVerificacionCorreo()">Validar la confirmación de su correo electrónico</u>
+                </div>
+                <div *ngIf="!formGroup.get('correo')?.errors && CorreoValidado">
+                  <h1 style="color:#1abb3d">Su correo electrónico ha sido validado.</h1>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <label class="form-label fw-bold">Ubicación:</label>
+                <div class="d-flex">
+                    <select name="departamento" id="departamentoId" formControlName="departamento"
+                        class="form-select me-2" (change)="buscarProvincia()">
+                        <option value="null" disabled="true" [selected]="true" class="form-select">DEPARTAMENTO</option>
+                        <option *ngFor="let item of listaDepartamentos" value="{{item.departamentoID}}">
+                            {{item.nombreDepartamento}}</option>
+                        <!-- <option value="item" class="form-select">ICA</option>
+                        <option value="lima" class="form-select">LIMA</option>
+                        <option value="arequipa" class="form-select">AREQUIPA</option> -->
+                    </select>
+                    <select name="provincia" id="provinciaId" class="form-select me-2" formControlName="provincia"
+                        (change)="buscarDistrito()">
+                        <option value="null" disabled="true" [selected]="true" class="form-select">PROVINCIA</option>
+                        <option *ngFor="let item of listaProvincia" value="{{item.provinciaID}}">
+                            {{item.nombreProvincia}}
+                        </option>
+                        <!-- <option value="ica" class="form-select">ICA</option>
+                            <option value="lima" class="form-select">LIMA</option>
+                        <option value="arequipa" class="form-select">AREQUIPA</option> -->
+                    </select>
+
+                    <select name="distrito" id="distritoId" class="form-select" formControlName="distrito">
+                        <option value="null" disabled="true" [selected]="true" class="form-select">DISTRITO</option>
+                        <option *ngFor="let item of listaDistrito" value="{{item.distritoID}}">{{item.nombreDistrito}}
+                        </option>
+                        <!-- <option value="ica" class="form-select">ICA</option>
+                            <option value="lima" class="form-select">LIMA</option>
+                            <option value="arequipa" class="form-select">AREQUIPA</option> -->
+                    </select>
+
+                </div>
+                <div *ngIf="formGroup.get('departamento')?.errors && formGroup.get('departamento')?.touched">
+                    <span style="color:#FF0000" *ngIf="formGroup.get('departamento')?.hasError('required')">
+                        (*) Seleccione un Departamento
+                    </span>
+                </div>
+                <div *ngIf="formGroup.get('provincia')?.errors && formGroup.get('provincia')?.touched">
+                    <span style="color:#FF0000" *ngIf="formGroup.get('provincia')?.hasError('required')">
+                        (*) Seleccione una Provincia
+                    </span>
+                </div>
+                <div *ngIf="formGroup.get('distrito')?.errors && formGroup.get('distrito')?.touched">
+                    <span style="color:#FF0000" *ngIf="formGroup.get('distrito')?.hasError('required')">
+                        (*) Seleccione un Distrito
+                    </span>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <label for="tefCel" class="form-label fw-bold">Teléfono / Celular:</label>
+                <input type="text" name="tefCel" id="tefCelId" class="form-control" formControlName="celular"
+                    [maxlength]=9 onkeypress="return ' 0123456789'.includes(event.key)">
+                <div *ngIf="formGroup.get('celular')?.errors && formGroup.get('celular')?.touched">
+                    <span style="color:#FF0000" *ngIf="formGroup.get('celular')?.hasError('required')">
+                        (*) Digitar un número de teléfono
+                    </span>
+                    <span style="color:#FF0000" *ngIf="formGroup.get('celular')?.hasError('minlength')">
+                        (*) Ingrese los 8 dígitos de su teléfono o 9 si es de celular
+                    </span>
+                </div>
+
+            </div>
+        </div>
+        <hr>
+
+        <!-- SECCION 5 detalle de la informacion solicitada-->
+        <div class="row mb-2">
+            <div class="col-12 ">
+                <label class="form-label fw-bold mt-2 mb-4">5. DETALLE DE LA INFORMACIÓN SOLICITADA:</label>
+                <!--agregar aqui el combo-->
+                <div class="row mb-1">
+                    <div class="col-xs-12 col-md-3 vertical-align">
+                        <label class="form-label fw-bold">Seleccionar tipo de entrega:</label>
+                    </div>
+                    <div class="col-xs-12 col-md-3">
+                        <select name="formaEntregaID" class="form-select custom-select" id="formaEntrega"
+                            formControlName="formaEntregaID" (change)="cambioTipoEntrega()">
+                            <option value="null" disabled="true" [selected]="true" class="form-select">TIPO ENTREGA
+                            </option>
+                            <option *ngFor="let item of listaTiposEntrega" value="{{item.formaEntregaID}}">
+                                {{item.descripcion}}
+                            </option>
+                        </select>
+
+                    </div>
+                    <div *ngIf="formGroup.get('formaEntregaID')?.errors && formGroup.get('formaEntregaID')?.touched">
+                        <span style="color:#FF0000" *ngIf="formGroup.get('formaEntregaID')?.hasError('required')">
+                            (*) Seleccione una forma de entrega
+                        </span>
+                    </div>
+                    <div *ngIf="mostrarMensajeCosto">
+                        <span style="color:#FF0000">
+                            (*) Para efectos de envío de la información a través del medio seleccionado, deberá realizar
+                            un pago, el mismo que será informado en los próximos días, a través de un correo, a la
+                            cuenta indicada en la presente solicitud
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 mt-2">
+                <label for="idInformacionSolicitada" class="form-label fw-bold">Información Solicitada:</label>
+                <textarea name="informacionSolicitada" id="idInformacionSolicitada" cols="30" rows="10"
+                    class="form-control" formControlName="informacionSolicitada"></textarea>
+                <div
+                    *ngIf="formGroup.get('informacionSolicitada')?.errors && formGroup.get('informacionSolicitada')?.touched">
+                    <span style="color:#FF0000" *ngIf="formGroup.get('informacionSolicitada')?.hasError('required')">
+                        (*) Ingrese lo que solicita
+                    </span>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div>
+                <div class="form-check mb-3">
+                    <input type="checkbox" name="declaracionJurada" id="declaracionJuradaId" class="form-check-input"
+                        formControlName="declaracionJurada" required>
+                    <label for="declaracionJuradaId" class="form-check-label">Estoy de Acuerdo con la&nbsp;
+                        <a target="_blank" rel="noopener noreferrer"></a>
+                    </label>
+                    <u (click)="openDialogTermyCond()">Declaración Jurada</u>
+                    <div
+                        *ngIf="formGroup.get('declaracionJurada')?.errors && formGroup.get('declaracionJurada')?.touched">
+                        <span style="color:#FF0000" *ngIf="formGroup.get('declaracionJurada')?.hasError('required')">
+                            (*) Debe aceptar la declaración jurada
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <button mat-flat-button color="warn" type="submit" class="btn-block mb-5 mt-2">
+            <div [routerLink]="'/Inicio'">Cancelar Registro</div></button>&nbsp;&nbsp;
+        <button mat-flat-button color="primary" type="submit" class="btn-block mb-5 mt-2" [disabled]="buttonDisabled"
+            (click)="validarEnvio()">Registrar Solicitud</button>
+
+        <!--  -->
+        <!-- [disabled]="formGroup.invalid || formGroup.disabled"     -->
+    </form>
+</div>
+<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Launch demo modal
+  </button> -->
+<!-- <button (click)="modalOpen()">asd</button> -->
+
+<!-- Modal -->
+<!-- <ng-template #mymodal let-modal>
+      <div class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              ...
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  </ng-template> -->
+<!-- {{formGroup.value|json}} -->
