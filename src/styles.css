@@ -1,7 +1,86 @@
 /* You can add global styles to this file, and also import other style files */
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+    .tw-container {
+        @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-8;
+    }
+
+    .tw-card {
+        @apply bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm;
+    }
+
+    .tw-section-title {
+        @apply mb-3 text-sm font-semibold tracking-wide text-slate-700;
+    }
+
+    .tw-label {
+        @apply block mb-1.5 text-sm font-medium text-slate-700;
+    }
+
+    .tw-input {
+        @apply w-full h-11 px-3 rounded-lg border border-slate-300 bg-white text-sm text-slate-900
+            placeholder:text-slate-400 outline-none
+            focus:ring-2 focus:ring-blue-400/70 focus:border-blue-400
+            disabled:bg-slate-100 disabled:text-slate-500;
+    }
+
+    .tw-select {
+        @apply w-full h-11 px-3 rounded-lg border border-slate-300 bg-white text-sm text-slate-900
+            outline-none focus:ring-2 focus:ring-blue-400/70 focus:border-blue-400;
+    }
+
+    .tw-textarea {
+        @apply w-full min-h-[7.5rem] p-3 rounded-lg border border-slate-300 bg-white text-sm text-slate-900
+            outline-none resize-y
+            focus:ring-2 focus:ring-blue-400/70 focus:border-blue-400;
+    }
+
+    .tw-radio {
+        @apply h-4 w-4 rounded-full border-slate-300 text-blue-600 focus:ring-blue-400/60;
+    }
+
+    .tw-checkbox {
+        @apply h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-400/60;
+    }
+
+    .tw-btn {
+        @apply inline-flex items-center justify-center gap-2 h-11 px-5 rounded-xl text-sm font-semibold
+            transition shadow-sm ring-1 ring-inset ring-transparent
+            focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/70;
+    }
+
+    .tw-btn-primary {
+        @apply tw-btn bg-blue-600 text-white hover:bg-blue-700;
+    }
+
+    .tw-btn-ghost {
+        @apply tw-btn bg-transparent text-slate-600 hover:bg-slate-100 ring-slate-200;
+    }
+
+    .tw-divider {
+        @apply h-px my-4 bg-gradient-to-r from-transparent via-slate-200 to-transparent;
+    }
+
+    .tw-error {
+        @apply mt-1.5 text-xs font-medium text-red-600;
+    }
+
+    .tw-help {
+        @apply mt-1.5 text-xs text-slate-500;
+    }
+
+    .tw-actions {
+        @apply mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end;
+    }
+
+    /* Estados inválidos automáticos (Angular ng-invalid + ng-touched) */
+    .ng-invalid.ng-touched.tw-input,
+    .ng-invalid.ng-touched.tw-select,
+    .ng-invalid.ng-touched.tw-textarea {
+        @apply border-red-500 focus:border-red-500 focus:ring-red-400/60;
+    }
+}
 

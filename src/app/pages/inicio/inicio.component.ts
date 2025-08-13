@@ -7,6 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InicioComponent implements OnInit {
 
+
+  // en tu componente
+  infoOpen = false;
+
   constructor() { }
 
   ngOnInit(): void {

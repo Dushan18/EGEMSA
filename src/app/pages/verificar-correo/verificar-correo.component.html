@@ -1,17 +1,29 @@
-<div class="container mt-4">
-  <div class="row justify-content-center">
-      <div class="col-md-6">
-          <!-- Sección de Ingreso de Código -->
-          <div class="container mt-5">
-              <div class="card mb-4">
-                  <div class="card-header bg-primary text-white">
-                      Verificación de correo electrónico
-                  </div>
-                  <div class="card-body">
-                   {{mensaje}}
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
-</div>
+<section class="min-h-[60vh] flex items-center justify-center px-4">
+    <div class="w-full max-w-md">
+        <article class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <!-- Header -->
+        <header class="flex items-start gap-3 px-5 bg-white mt-6">
+            <div class="grid place-items-center w-9 h-9 rounded-full bg-white/20" aria-hidden="true">
+            <!-- Icono decorativo -->
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#2563eb"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280L160-640v400h640v-400L480-440Zm0-80 320-200H160l320 200ZM160-640v-80 480-400Z"/></svg>
+            </div>
+            <h2 class="text-black text-base font-semibold leading-none">
+            Verificación de correo electrónico
+            </h2>
+        </header>
+
+        <!-- Body -->
+        <div class="p-6">
+            <div class="rounded-lg border border-blue-200 bg-blue-50 text-blue-800 text-sm p-3 leading-relaxed">
+            {{ mensaje }}
+            </div>
+        </div>
+        </article>
+
+        <!-- Nota -->
+        <br>
+        <p class="text-center text-xs text-slate-500">
+        Si no encuentras el correo, revisa la carpeta de <span class="font-medium">spam</span>.
+        </p>
+    </div>
+</section>
