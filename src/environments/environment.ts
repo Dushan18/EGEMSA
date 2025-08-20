@@ -6,6 +6,8 @@ export const environment = {
   production: false,
   //urlAPI : "https://localhost:7051/api/",
   urlAPI : "https://solicitudtransparencia.egemsa.com.pe:8445/api/",
+  //urlAPI : "https://172.16.1.15:8460/api/",
+
 };
 
 /*

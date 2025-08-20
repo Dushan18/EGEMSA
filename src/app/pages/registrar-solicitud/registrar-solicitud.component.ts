@@ -14,6 +14,7 @@ import { EnviarCorreoVerificacion, GuardarSolicitud, ValidarVerificacionCorreo }
 import { SolicitudService } from 'src/app/shared/services/solicitud.service';
 import { ModalConfirmacionComponet } from 'src/app/shared/components/modalConfirmacion/modal-confirmacion';
 
+
 @Component({
   selector: 'app-registrar-solicitud',
   templateUrl: './registrar-solicitud.component.html',
@@ -40,6 +41,7 @@ export class RegistrarSolicitudComponent implements OnInit {
   cantidadCaracteresNumDocu:number=0;
   documentNumberLengthMax = 0;
   documentNumberLengthMin = 0;
+  captchaOk = false;
 
   constructor(
     private _responsableService: ResponsableService,
@@ -540,6 +542,17 @@ export class RegistrarSolicitudComponent implements OnInit {
   }
   cancelarRegistro(){
 
+  }
+
+  onSubmit() {
+    if (!this.captchaOk) {
+      __messageSnackBar(this._matSnackBar, "Valide el CAPTCHA antes de continuar.");
+      return;
+    }
+    if (this.formGroup.invalid) {
+      this.formGroup.markAllAsTouched();
+      return;
+    }
   }
 
 }

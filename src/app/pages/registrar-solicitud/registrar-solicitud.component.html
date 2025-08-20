@@ -1,6 +1,5 @@
 <div class="tw-container mt-6 mb-10">
   <form [formGroup]="formGroup" (ngSubmit)="validateAndSubmit()" class="space-y-6">
-
     <!-- 1. Responsable -->
     <div class="tw-card">
       <label for="idInfoFrai" class="tw-section-title">
@@ -9,6 +8,20 @@
       <input id="idInfoFrai" class="tw-input mt-2" type="text" formControlName="nombreResponsable" [disabled]="true">
     </div>
 
+    <!-- Bloque CAPTCHA -->
+    <div class="rounded-2xl border border-slate-200 bg-rose-50/30 p-4 mb-4">
+      <h3 class="mb-3 text-sm font-semibold text-slate-800">Verificación CAPTCHA:</h3>
+      <app-captcah (passed)="captchaOk = $event"></app-captcah>
+      <p *ngIf="captchaOk" class="mt-2 text-sm text-emerald-700">Captcha verificado correctamente.</p>
+    </div>
+
+    <fieldset [disabled]="!captchaOk"
+      [class.opacity-60]="!captchaOk"
+      [class.pointer-events-none]="!captchaOk"
+      class="transition-opacity">
+    <!-- ... TODO tu formulario ... -->
+    
+    
     <!-- 2. Tipo de persona -->
     <div class="tw-card">
       <div class="tw-section-title">2. TIPO DE PERSONA:</div>
@@ -306,6 +319,8 @@
         Registrar Solicitud
       </button>
     </div>
+
+    </fieldset>
 
   </form>
 </div>

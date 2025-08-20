@@ -44,22 +44,22 @@ export class SolicitudService extends BaseService{
     descargarFormulario(id:any):Promise<any>{
         const httpOptions = {
             responseType: 'blob' as 'json'
-          };
+            };
         const params = new HttpParams()
         .set('Codigo',id);
         return this.http.post(`${this.url}descargar-formulario`,params,httpOptions).toPromise();
     }
 
     enviarCorreoVerificacion(enviarCorreoVerificacion:EnviarCorreoVerificacion):Promise<any>{
-      return this.http.post(`${this.url}EnviarCorreoVerificacion`,enviarCorreoVerificacion).toPromise();
+        return this.http.post(`${this.url}EnviarCorreoVerificacion`,enviarCorreoVerificacion).toPromise();
     }
 
     verificarCorreo(verificarCorreo:VerificarCorreo):Promise<any>{
-      return this.http.post(`${this.url}VerificarCorreo`,verificarCorreo).toPromise();
+        return this.http.post(`${this.url}VerificarCorreo`,verificarCorreo).toPromise();
     }
 
     validarVerificacionCorreo(ValidarVerificacionCorreo:ValidarVerificacionCorreo):Promise<any>{
-      return this.http.post(`${this.url}ValidarVerificacionCorreo`,ValidarVerificacionCorreo).toPromise();
+        return this.http.post(`${this.url}ValidarVerificacionCorreo`,ValidarVerificacionCorreo).toPromise();
     }
 
 }

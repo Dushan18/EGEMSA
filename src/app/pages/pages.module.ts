@@ -9,6 +9,7 @@ import { BusquedaSolicitudComponent } from './busqueda-solicitud/busqueda-solici
 import { InicioComponent } from './inicio/inicio.component';
 import { SharedModule } from '../shared/shared.module';
 import { DialogTerminosCondicionesComponent } from './registrar-solicitud/terminos-condiciones/terminos-condiciones.component';
+import { CaptcahComponent } from './captcah/captcah.component';
 
 
 
@@ -21,6 +22,8 @@ import { DialogTerminosCondicionesComponent } from './registrar-solicitud/termin
     HeaderComponent,
     FooterComponent,
     DialogTerminosCondicionesComponent,
+    CaptcahComponent,
+    
 
   ],
   imports: [

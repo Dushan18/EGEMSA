@@ -1,0 +1,18 @@
+<div class="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+    <canvas #canvas class="h-12 w-[140px] rounded-md border border-slate-300 bg-white p-1"></canvas>
+
+    <input #inp type="text" placeholder="Texto de la imagen" autocomplete="off"
+            class="h-11 w-full max-w-xs rounded-xl border border-slate-300 bg-white px-3 text-sm
+                    placeholder-slate-400 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500" />
+
+    <button type="button" (click)="refresh()"
+            class="inline-flex h-11 items-center justify-center rounded-lg border border-slate-300 bg-white px-3 text-slate-600 hover:bg-slate-50">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M480-160q-134 0-227-93t-93-227q0-134 93-227t227-93q69 0 132 28.5T720-690v-110h80v280H520v-80h168q-32-56-87.5-88T480-720q-100 0-170 70t-70 170q0 100 70 170t170 70q77 0 139-44t87-116h84q-28 106-114 173t-196 67Z"/></svg>
+    </button>
+
+    <button type="button" (click)="verify(inp.value)"
+            class="inline-flex h-11 items-center justify-center rounded-xl bg-emerald-600 px-4 text-sm font-semibold text-white hover:bg-emerald-700">
+        Verificar
+    </button>
+</div>
+
